@@ -40,14 +40,17 @@ const MessageInbox = ({
 
   const displayConversations = searchQuery.trim() ? searchResults : conversations;
 
-  const formatLastMessage = (message, partnerId) => {
+const formatLastMessage = (message, partnerId) => {
     if (!message) return '';
     
     const isFromCurrentUser = message.senderId === currentUserId;
     const prefix = isFromCurrentUser ? 'You: ' : '';
-    const content = message.content.length > 50 
-      ? message.content.substring(0, 50) + '...' 
-      : message.content;
+    
+    // Handle undefined or null content safely
+    const messageContent = message.content || '';
+    const content = messageContent.length > 50 
+      ? messageContent.substring(0, 50) + '...' 
+      : messageContent;
     
     return prefix + content;
   };
