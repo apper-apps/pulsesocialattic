@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { MessageService } from '@/services/api/messageService';
-import MessageInbox from '@/components/molecules/MessageInbox';
-import ChatInterface from '@/components/organisms/ChatInterface';
-import Loading from '@/components/ui/Loading';
-import Error from '@/components/ui/Error';
-import Empty from '@/components/ui/Empty';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { MessageService } from "@/services/api/messageService";
+import MessageInbox from "@/components/molecules/MessageInbox";
+import ChatInterface from "@/components/organisms/ChatInterface";
+import Loading from "@/components/ui/Loading";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
 
 const MessagesPage = () => {
-  const { conversationId } = useParams();
   const navigate = useNavigate();
+  const { conversationId } = useParams();
+  
   const [conversations, setConversations] = useState([]);
-  const [selectedConversation, setSelectedConversation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedConversation, setSelectedConversation] = useState(null);
   
   const currentUserId = 1; // In a real app, this would come from auth context
 
@@ -81,7 +82,6 @@ const MessagesPage = () => {
     navigate('/messages');
   };
 
-  if (loading) return <Loading />;
 if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadConversations} />;
 

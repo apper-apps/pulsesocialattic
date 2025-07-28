@@ -8,7 +8,7 @@ import { MessageService } from '@/services/api/messageService';
 import { cn } from '@/utils/cn';
 
 const MessageInbox = ({ 
-  conversations, 
+  conversations = [], 
   selectedConversation, 
   onConversationSelect, 
   currentUserId 
@@ -38,8 +38,7 @@ const MessageInbox = ({
     }
   };
 
-  const displayConversations = searchQuery.trim() ? searchResults : conversations;
-
+const displayConversations = searchQuery.trim() ? (searchResults || []) : (conversations || []);
 const formatLastMessage = (message, partnerId) => {
     if (!message) return '';
     
@@ -94,8 +93,8 @@ const formatLastMessage = (message, partnerId) => {
               </div>
               <span className="text-sm">Searching...</span>
             </div>
-          </div>
-        ) : displayConversations.length === 0 ? (
+</div>
+        ) : (displayConversations?.length || 0) === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
             <ApperIcon name="MessageCircle" className="text-gray-300 mb-3" size={48} />
             <h3 className="text-lg font-medium text-gray-900 mb-1">
