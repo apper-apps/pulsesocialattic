@@ -1,10 +1,11 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { cn } from "@/utils/cn";
-import Avatar from "@/components/atoms/Avatar";
-import Button from "@/components/atoms/Button";
 import ApperIcon from "@/components/ApperIcon";
 import NotificationDropdown from "@/components/molecules/NotificationDropdown";
+import UserSearchBar from "@/components/molecules/UserSearchBar";
+import Button from "@/components/atoms/Button";
+import Avatar from "@/components/atoms/Avatar";
+import { cn } from "@/utils/cn";
 const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,9 +36,9 @@ const Layout = ({ children }) => {
       {/* Header Navigation */}
       <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+<div className="flex items-center justify-between h-16 gap-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-3">
+            <Link to="/" className="flex items-center space-x-3 flex-shrink-0">
               <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
                 <ApperIcon name="Zap" className="w-5 h-5 text-white" />
               </div>
@@ -46,8 +47,13 @@ const Layout = ({ children }) => {
               </span>
             </Link>
 
+            {/* Search Bar */}
+            <div className="hidden sm:block flex-1 max-w-md mx-4">
+              <UserSearchBar />
+            </div>
+
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden md:flex items-center space-x-6 flex-shrink-0">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
@@ -65,7 +71,7 @@ const Layout = ({ children }) => {
               ))}
             </nav>
 
-{/* User Menu */}
+            {/* User Menu */}
             <div className="flex items-center space-x-4">
               <NotificationDropdown />
               

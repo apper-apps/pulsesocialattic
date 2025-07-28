@@ -4,6 +4,7 @@ import { cn } from "@/utils/cn";
 const Input = React.forwardRef(({
   className,
   type = "text",
+  variant,
   error,
   ...props
 }, ref) => {
@@ -15,6 +16,7 @@ const Input = React.forwardRef(({
         "placeholder:text-gray-500",
         "focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent",
         "disabled:cursor-not-allowed disabled:opacity-50",
+        variant === "search" && "bg-gray-50 border-gray-300 focus:bg-white",
         error && "border-error focus:ring-error",
         className
       )}
