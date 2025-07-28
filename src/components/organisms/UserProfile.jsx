@@ -18,8 +18,9 @@ const UserProfile = ({ username, onFollowUpdate, className }) => {
   const [error, setError] = useState("");
   const [isFollowing, setIsFollowing] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+const [currentUser, setCurrentUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [editForm, setEditForm] = useState({
     displayName: "",
     bio: "",
@@ -128,7 +129,55 @@ const handleFollowToggle = async () => {
       ...prev,
       [field]: value
     }));
+};
+
+  const handleDropdownToggle = () => {
+    setShowDropdown(!showDropdown);
   };
+
+  const handleDropdownAction = (action) => {
+    setShowDropdown(false);
+    
+    switch (action) {
+      case 'settings':
+        toast.info('Settings feature coming soon');
+        break;
+      case 'privacy':
+        toast.info('Privacy settings feature coming soon');
+        break;
+      case 'share':
+        if (navigator.share) {
+          navigator.share({
+            title: `${user.displayName} (@${user.username})`,
+            url: window.location.href
+          });
+        } else {
+          navigator.clipboard.writeText(window.location.href);
+          toast.success('Profile link copied to clipboard');
+        }
+        break;
+      case 'report':
+        toast.info('Report feature coming soon');
+        break;
+      case 'block':
+        toast.info('Block feature coming soon');
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showDropdown && !event.target.closest('.dropdown-container')) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showDropdown]);
 
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadUserProfile} />;
@@ -153,16 +202,73 @@ const handleFollowToggle = async () => {
           />
           
           {isOwnProfile ? (
-            <div className="flex items-center space-x-3 mt-16">
-              <Button
-                variant="secondary"
-                size="icon"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                <ApperIcon name="MoreHorizontal" className="w-5 h-5" />
-              </Button>
+<div className="flex items-center space-x-3 mt-16">
+              <div className="relative dropdown-container">
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  onClick={handleDropdownToggle}
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  <ApperIcon name="MoreHorizontal" className="w-5 h-5" />
+                </Button>
+                
+                {showDropdown && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                    {isOwnProfile ? (
+                      <>
+                        <button
+                          onClick={() => handleDropdownAction('settings')}
+                          className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                        >
+                          <ApperIcon name="Settings" className="w-4 h-4 mr-3" />
+                          Settings
+                        </button>
+                        <button
+                          onClick={() => handleDropdownAction('privacy')}
+                          className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                        >
+                          <ApperIcon name="Shield" className="w-4 h-4 mr-3" />
+                          Privacy
+                        </button>
+                        <button
+                          onClick={() => handleDropdownAction('share')}
+                          className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                        >
+                          <ApperIcon name="Share" className="w-4 h-4 mr-3" />
+                          Share Profile
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => handleDropdownAction('share')}
+                          className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                        >
+                          <ApperIcon name="Share" className="w-4 h-4 mr-3" />
+                          Share Profile
+                        </button>
+                        <button
+                          onClick={() => handleDropdownAction('report')}
+                          className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                        >
+                          <ApperIcon name="Flag" className="w-4 h-4 mr-3" />
+                          Report User
+                        </button>
+                        <button
+                          onClick={() => handleDropdownAction('block')}
+                          className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center"
+                        >
+                          <ApperIcon name="UserX" className="w-4 h-4 mr-3" />
+                          Block User
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
               
-{isEditing ? (
+              {isEditing ? (
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
@@ -200,13 +306,42 @@ const handleFollowToggle = async () => {
             </div>
           ) : currentUser && (
             <div className="flex items-center space-x-3 mt-16">
-              <Button
-                variant="secondary"
-                size="icon"
-                className="text-gray-600 hover:text-gray-900"
-              >
-                <ApperIcon name="MoreHorizontal" className="w-5 h-5" />
-              </Button>
+              <div className="relative dropdown-container">
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  onClick={handleDropdownToggle}
+                  className="text-gray-600 hover:text-gray-900"
+                >
+                  <ApperIcon name="MoreHorizontal" className="w-5 h-5" />
+                </Button>
+                
+                {showDropdown && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                    <button
+                      onClick={() => handleDropdownAction('share')}
+                      className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                    >
+                      <ApperIcon name="Share" className="w-4 h-4 mr-3" />
+                      Share Profile
+                    </button>
+                    <button
+                      onClick={() => handleDropdownAction('report')}
+                      className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                    >
+                      <ApperIcon name="Flag" className="w-4 h-4 mr-3" />
+                      Report User
+                    </button>
+                    <button
+                      onClick={() => handleDropdownAction('block')}
+                      className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center"
+                    >
+                      <ApperIcon name="UserX" className="w-4 h-4 mr-3" />
+                      Block User
+                    </button>
+                  </div>
+                )}
+              </div>
               
               <Button
                 variant={isFollowing ? "secondary" : "primary"}
