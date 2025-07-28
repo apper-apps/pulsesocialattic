@@ -17,11 +17,11 @@ const ChatInterface = ({ conversation, currentUserId, onSendMessage, onBack }) =
   const [sending, setSending] = useState(false);
   const messagesEndRef = useRef(null);
 
-  useEffect(() => {
-    if (conversation) {
+useEffect(() => {
+    if (conversation?.Id) {
       loadMessages();
     }
-  }, [conversation]);
+  }, [conversation?.Id]);
 
   useEffect(() => {
     scrollToBottom();
