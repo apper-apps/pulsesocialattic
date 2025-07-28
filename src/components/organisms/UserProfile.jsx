@@ -3,6 +3,8 @@ import { toast } from "react-toastify";
 import Avatar from "@/components/atoms/Avatar";
 import Button from "@/components/atoms/Button";
 import Badge from "@/components/atoms/Badge";
+import Input from "@/components/atoms/Input";
+import TextArea from "@/components/atoms/TextArea";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import ApperIcon from "@/components/ApperIcon";
@@ -17,7 +19,14 @@ const UserProfile = ({ username, onFollowUpdate, className }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState({
+    displayName: "",
+    bio: "",
+    location: "",
+    website: ""
+  });
+  const [saveLoading, setSaveLoading] = useState(false);
   const loadUserProfile = async () => {
     try {
       setError("");
@@ -77,6 +86,48 @@ const handleFollowToggle = async () => {
     } finally {
       setFollowLoading(false);
     }
+};
+
+  const toggleEditMode = () => {
+    if (isEditing) {
+      setIsEditing(false);
+    } else {
+      setEditForm({
+        displayName: user.displayName || "",
+        bio: user.bio || "",
+        location: user.location || "",
+        website: user.website || ""
+      });
+      setIsEditing(true);
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      setSaveLoading(true);
+      const updatedUser = await UserService.update(user.id, {
+        displayName: editForm.displayName.trim(),
+        bio: editForm.bio.trim(),
+        location: editForm.location.trim(),
+        website: editForm.website.trim()
+      });
+      
+      setUser(updatedUser);
+      setIsEditing(false);
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error("Failed to update profile. Please try again.");
+    } finally {
+      setSaveLoading(false);
+    }
+  };
+
+  const handleFormChange = (field, value) => {
+    setEditForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   if (loading) return <Loading />;
@@ -111,14 +162,41 @@ const handleFollowToggle = async () => {
                 <ApperIcon name="MoreHorizontal" className="w-5 h-5" />
               </Button>
               
-              <Button
-                variant="primary"
-                onClick={() => toast.success("Edit profile feature coming soon!")}
-                className="px-6"
-              >
-                <ApperIcon name="Edit3" className="w-4 h-4 mr-2" />
-                Edit Profile
-              </Button>
+{isEditing ? (
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={toggleEditMode}
+                    disabled={saveLoading}
+                    className="px-4"
+                  >
+                    <ApperIcon name="X" className="w-4 h-4 mr-2" />
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleSaveProfile}
+                    disabled={saveLoading}
+                    className="px-6"
+                  >
+                    {saveLoading ? (
+                      <ApperIcon name="Loader2" className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <ApperIcon name="Check" className="w-4 h-4 mr-2" />
+                    )}
+                    Save Changes
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  variant="primary"
+                  onClick={toggleEditMode}
+                  className="px-6"
+                >
+                  <ApperIcon name="Edit3" className="w-4 h-4 mr-2" />
+                  Edit Profile
+                </Button>
+              )}
             </div>
           ) : currentUser && (
             <div className="flex items-center space-x-3 mt-16">
@@ -200,6 +278,65 @@ const handleFollowToggle = async () => {
           </div>
         </div>
       </div>
+{/* Edit Form */}
+      {isOwnProfile && isEditing && (
+        <div className="mt-6 p-6 bg-gray-50 rounded-lg">
+          <h3 className="text-lg font-semibold mb-4">Edit Profile</h3>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Display Name
+              </label>
+              <Input
+                value={editForm.displayName}
+                onChange={(e) => handleFormChange("displayName", e.target.value)}
+                placeholder="Enter your display name"
+                maxLength={50}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Bio
+              </label>
+              <TextArea
+                value={editForm.bio}
+                onChange={(e) => handleFormChange("bio", e.target.value)}
+                placeholder="Tell us about yourself..."
+                maxLength={160}
+                rows={3}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                {editForm.bio.length}/160 characters
+              </p>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Location
+              </label>
+              <Input
+                value={editForm.location}
+                onChange={(e) => handleFormChange("location", e.target.value)}
+                placeholder="Where are you located?"
+                maxLength={30}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Website
+              </label>
+              <Input
+                value={editForm.website}
+                onChange={(e) => handleFormChange("website", e.target.value)}
+                placeholder="https://your-website.com"
+                type="url"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
