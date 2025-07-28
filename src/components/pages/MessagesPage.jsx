@@ -82,14 +82,14 @@ const MessagesPage = () => {
   };
 
   if (loading) return <Loading />;
+if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadConversations} />;
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] bg-white rounded-lg shadow-sm overflow-hidden">
+    <div className="flex h-[calc(100vh-2rem)] bg-white rounded-lg shadow-sm overflow-hidden">
       {/* Inbox Sidebar - Hidden on mobile when conversation is selected */}
-      <div className={`${selectedConversation ? 'hidden lg:flex' : 'flex'} flex-col w-full lg:w-80 border-r border-gray-200`}>
+      <div className={`${selectedConversation ? 'hidden lg:flex' : 'flex'} flex-col w-full lg:w-72 border-r border-gray-200`}>
         <MessageInbox
-          conversations={conversations}
           selectedConversation={selectedConversation}
           onConversationSelect={handleConversationSelect}
           currentUserId={currentUserId}
