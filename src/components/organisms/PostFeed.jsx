@@ -110,9 +110,37 @@ const handleLike = async (postId, isLiked) => {
     navigate(`/post/${postId}`);
   };
 
-  const handleShare = (postId) => {
-    navigator.clipboard.writeText(`${window.location.origin}/post/${postId}`);
-    toast.success("Post link copied to clipboard!");
+const handleShare = async (postId) => {
+    const shareUrl = `${window.location.origin}/post/${postId}`;
+    
+    try {
+      // Try modern Clipboard API first
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(shareUrl);
+        toast.success("Post link copied to clipboard!");
+      } else {
+        // Fallback for older browsers or non-secure contexts
+        const textArea = document.createElement('textarea');
+        textArea.value = shareUrl;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        if (document.execCommand('copy')) {
+          toast.success("Post link copied to clipboard!");
+        } else {
+          throw new Error('Copy command failed');
+        }
+        
+        document.body.removeChild(textArea);
+      }
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+      toast.error("Unable to copy link. Please copy manually from the address bar.");
+    }
   };
 
   if (loading) return <Loading />;
