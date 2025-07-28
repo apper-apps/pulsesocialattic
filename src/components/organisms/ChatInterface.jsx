@@ -78,7 +78,7 @@ const handleKeyPress = (e) => {
 
   if (!conversation) return null;
 
-  return (
+return (
     <div className="flex flex-col h-full bg-white">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
