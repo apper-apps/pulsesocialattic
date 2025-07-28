@@ -92,7 +92,7 @@ const handleFollowToggle = async () => {
       
       {/* Profile Info */}
       <div className="px-6 pb-6">
-        <div className="flex items-end justify-between -mt-16">
+<div className="flex items-end justify-between -mt-16">
           <Avatar
             src={user.avatarUrl}
             alt={user.displayName}
@@ -101,7 +101,26 @@ const handleFollowToggle = async () => {
             className="border-4 border-white shadow-lg"
           />
           
-          {!isOwnProfile && currentUser && (
+          {isOwnProfile ? (
+            <div className="flex items-center space-x-3 mt-16">
+              <Button
+                variant="secondary"
+                size="icon"
+                className="text-gray-600 hover:text-gray-900"
+              >
+                <ApperIcon name="MoreHorizontal" className="w-5 h-5" />
+              </Button>
+              
+              <Button
+                variant="primary"
+                onClick={() => toast.success("Edit profile feature coming soon!")}
+                className="px-6"
+              >
+                <ApperIcon name="Edit3" className="w-4 h-4 mr-2" />
+                Edit Profile
+              </Button>
+            </div>
+          ) : currentUser && (
             <div className="flex items-center space-x-3 mt-16">
               <Button
                 variant="secondary"
