@@ -300,14 +300,13 @@ export const UserService = {
         ...user,
         id: user.Id.toString()
       }));
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
         console.error("Error searching users:", error?.response?.data?.message);
       } else {
         console.error(error.message);
       }
       return [];
-return [];
     }
   }
 };

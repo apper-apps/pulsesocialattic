@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ApperIcon from "@/components/ApperIcon";
 import NotificationDropdown from "@/components/molecules/NotificationDropdown";
@@ -6,9 +6,11 @@ import UserSearchBar from "@/components/molecules/UserSearchBar";
 import Button from "@/components/atoms/Button";
 import Avatar from "@/components/atoms/Avatar";
 import { cn } from "@/utils/cn";
+import { AuthContext } from "../../App";
 const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
 
   // Mock current user - in real app would come from auth context
   const currentUser = {
@@ -17,7 +19,6 @@ const Layout = ({ children }) => {
     displayName: "John Doe",
     avatarUrl: null
   };
-
 const navigation = [
     { name: "Home", href: "/", icon: "Home" },
     { name: "Messages", href: "/messages", icon: "MessageCircle" },
@@ -76,18 +77,14 @@ const navigation = [
 <div className="flex items-center space-x-4">
               <NotificationDropdown />
               
-              <Button
+<Button
                 variant="ghost"
                 size="sm"
                 onClick={() => {
                   // Logout functionality using AuthContext
-                  import('../../App').then(module => {
-                    const { AuthContext } = module;
-                    const authContext = React.useContext(AuthContext);
-                    if (authContext?.logout) {
-                      authContext.logout();
-                    }
-                  });
+                  if (authContext?.logout) {
+                    authContext.logout();
+                  }
                 }}
                 className="text-gray-600 hover:text-gray-900"
               >
