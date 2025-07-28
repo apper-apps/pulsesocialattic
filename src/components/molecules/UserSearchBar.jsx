@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { cn } from "@/utils/cn";
-import Input from "@/components/atoms/Input";
-import UserCard from "@/components/molecules/UserCard";
+import { UserService } from "@/services/api/userService";
 import ApperIcon from "@/components/ApperIcon";
-import { userService } from "@/services/api/userService";
+import UserCard from "@/components/molecules/UserCard";
+import Input from "@/components/atoms/Input";
+import { cn } from "@/utils/cn";
 
 const UserSearchBar = ({ className }) => {
   const [query, setQuery] = useState("");
@@ -26,10 +26,10 @@ const UserSearchBar = ({ className }) => {
       return;
     }
 
-    const timeoutId = setTimeout(async () => {
+const timeoutId = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const searchResults = await userService.search(query);
+        const searchResults = await UserService.search(query);
         setResults(searchResults.slice(0, 8)); // Limit to 8 results
         setIsOpen(searchResults.length > 0);
         setSelectedIndex(-1);
