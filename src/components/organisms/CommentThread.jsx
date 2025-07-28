@@ -46,7 +46,7 @@ const CommentThread = ({ postId, className }) => {
     }
   }, [postId]);
 
-  const handleSubmitComment = async (e) => {
+const handleSubmitComment = async (e) => {
     e.preventDefault();
     
     if (!newComment.trim()) return;

@@ -1,0 +1,51 @@
+[
+  {
+    "Id": 1,
+    "userId": 1,
+    "fromUserId": 2,
+    "type": "like",
+    "postId": 1,
+    "message": "Sarah Chen liked your post",
+    "isRead": false,
+    "createdAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "userId": 1,
+    "fromUserId": 3,
+    "type": "comment",
+    "postId": 2,
+    "commentId": 5,
+    "message": "Mike Johnson commented on your post",
+    "isRead": false,
+    "createdAt": "2024-01-15T09:15:00Z"
+  },
+  {
+    "Id": 3,
+    "userId": 1,
+    "fromUserId": 4,
+    "type": "follow",
+    "message": "Alex Rivera started following you",
+    "isRead": true,
+    "createdAt": "2024-01-14T16:45:00Z"
+  },
+  {
+    "Id": 4,
+    "userId": 2,
+    "fromUserId": 1,
+    "type": "like",
+    "postId": 3,
+    "message": "John Doe liked your post",
+    "isRead": false,
+    "createdAt": "2024-01-14T14:20:00Z"
+  },
+  {
+    "Id": 5,
+    "userId": 3,
+    "fromUserId": 5,
+    "type": "follow",
+    "message": "Emma Watson started following you",
+    "isRead": false,
+    "createdAt": "2024-01-13T11:30:00Z"
+  }
+]

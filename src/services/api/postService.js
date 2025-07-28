@@ -1,5 +1,6 @@
 import posts from "@/services/mockData/posts.json";
 import users from "@/services/mockData/users.json";
+import { NotificationService } from "./notificationService";
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -96,7 +97,7 @@ export const PostService = {
     return { success: true };
   },
 
-  async toggleLike(id, isLiked) {
+async toggleLike(id, isLiked) {
     await delay(200);
     const postIndex = posts.findIndex(p => p.Id === parseInt(id));
     if (postIndex === -1) {
@@ -106,6 +107,26 @@ export const PostService = {
     const post = posts[postIndex];
     post.likeCount = isLiked ? post.likeCount + 1 : Math.max(0, post.likeCount - 1);
     post.isLiked = isLiked;
+    
+    // Create notification for like (only if liking, not unliking)
+    if (isLiked && post.userId !== 1) { // Don't notify self
+      const liker = users.find(u => u.Id === 1); // Current user
+      const postOwner = users.find(u => u.Id === post.userId);
+      
+      if (liker && postOwner) {
+        try {
+          await NotificationService.create({
+            userId: post.userId,
+            fromUserId: 1,
+            type: 'like',
+            postId: post.Id,
+            message: `${liker.displayName} liked your post`
+          });
+        } catch (error) {
+          console.error('Failed to create like notification:', error);
+        }
+      }
+    }
     
     return enrichPostWithUser(post);
   }

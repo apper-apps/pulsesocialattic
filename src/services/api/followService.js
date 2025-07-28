@@ -1,5 +1,6 @@
 import follows from "@/services/mockData/follows.json";
 import users from "@/services/mockData/users.json";
+import { NotificationService } from "./notificationService";
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -42,7 +43,7 @@ export const FollowService = {
     );
   },
 
-  async follow(followerId, followingId) {
+async follow(followerId, followingId) {
     await delay(350);
     
     // Check if already following
@@ -70,6 +71,20 @@ export const FollowService = {
     
     if (followerUser) followerUser.followingCount++;
     if (followingUser) followingUser.followerCount++;
+    
+    // Create notification for follow
+    if (followerId !== followingId) { // Don't notify self
+      try {
+        await NotificationService.create({
+          userId: parseInt(followingId),
+          fromUserId: parseInt(followerId),
+          type: 'follow',
+          message: `${followerUser.displayName} started following you`
+        });
+      } catch (error) {
+        console.error('Failed to create follow notification:', error);
+      }
+    }
     
     return {
       ...newFollow,

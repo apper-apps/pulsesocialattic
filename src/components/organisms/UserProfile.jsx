@@ -48,7 +48,7 @@ const UserProfile = ({ username, onFollowUpdate, className }) => {
     }
   }, [username]);
 
-  const handleFollowToggle = async () => {
+const handleFollowToggle = async () => {
     if (!currentUser || !user) return;
     
     setFollowLoading(true);
@@ -68,7 +68,7 @@ const UserProfile = ({ username, onFollowUpdate, className }) => {
           ...prev,
           followerCount: prev.followerCount + 1
         }));
-        toast.success(`Following @${user.username}`);
+        toast.success(`Now following @${user.username}`);
       }
       
       onFollowUpdate?.(user.id, !isFollowing);

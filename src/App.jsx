@@ -1,15 +1,18 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
+import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { NotificationProvider } from "@/contexts/NotificationContext";
+import "@/index.css";
 import Layout from "@/components/organisms/Layout";
 import HomePage from "@/components/pages/HomePage";
+import SettingsPage from "@/components/pages/SettingsPage";
 import ProfilePage from "@/components/pages/ProfilePage";
 import PostDetailPage from "@/components/pages/PostDetailPage";
-import SettingsPage from "@/components/pages/SettingsPage";
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-white">
+      <NotificationProvider>
         <Layout>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -26,11 +29,8 @@ function App() {
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
         />
-      </div>
+      </NotificationProvider>
     </BrowserRouter>
   );
 }

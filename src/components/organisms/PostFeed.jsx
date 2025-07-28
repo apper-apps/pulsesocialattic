@@ -45,7 +45,7 @@ const PostFeed = ({ userId, className }) => {
     setPosts(prev => [newPost, ...prev]);
   };
 
-  const handleLike = async (postId, isLiked) => {
+const handleLike = async (postId, isLiked) => {
     try {
       await PostService.toggleLike(postId, isLiked);
       setPosts(prev => prev.map(post => 
@@ -57,6 +57,10 @@ const PostFeed = ({ userId, className }) => {
             }
           : post
       ));
+      
+      if (isLiked) {
+        toast.success("Post liked!");
+      }
     } catch (err) {
       toast.error("Failed to update like");
     }

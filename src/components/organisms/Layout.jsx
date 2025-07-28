@@ -4,7 +4,7 @@ import { cn } from "@/utils/cn";
 import Avatar from "@/components/atoms/Avatar";
 import Button from "@/components/atoms/Button";
 import ApperIcon from "@/components/ApperIcon";
-
+import NotificationDropdown from "@/components/molecules/NotificationDropdown";
 const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -65,8 +65,10 @@ const Layout = ({ children }) => {
               ))}
             </nav>
 
-            {/* User Menu */}
+{/* User Menu */}
             <div className="flex items-center space-x-4">
+              <NotificationDropdown />
+              
               <Button
                 variant="ghost"
                 size="icon"
@@ -75,7 +77,6 @@ const Layout = ({ children }) => {
               >
                 <ApperIcon name="Menu" className="w-5 h-5" />
               </Button>
-              
               <Link to={`/profile/${currentUser.username}`}>
                 <Avatar
                   src={currentUser.avatarUrl}

@@ -1,6 +1,7 @@
 import comments from "@/services/mockData/comments.json";
 import users from "@/services/mockData/users.json";
-
+import { NotificationService } from "./notificationService";
+import { PostService } from "./postService";
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const enrichCommentWithUser = (comment) => {
@@ -40,7 +41,7 @@ export const CommentService = {
       .map(enrichCommentWithUser);
   },
 
-  async create(commentData) {
+async create(commentData) {
     await delay(400);
     const currentUser = users.find(u => u.Id === 1); // Mock current user
     
@@ -54,6 +55,28 @@ export const CommentService = {
     };
     
     comments.push(newComment);
+    
+    // Create notification for comment
+    try {
+      const post = await PostService.getById(commentData.postId);
+      if (post && post.userId !== '1') { // Don't notify self
+        const commenter = users.find(u => u.Id === 1);
+        
+        if (commenter) {
+          await NotificationService.create({
+            userId: parseInt(post.userId),
+            fromUserId: 1,
+            type: 'comment',
+            postId: newComment.postId,
+            commentId: newComment.Id,
+            message: `${commenter.displayName} commented on your post`
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Failed to create comment notification:', error);
+    }
+    
     return enrichCommentWithUser(newComment);
   },
 
