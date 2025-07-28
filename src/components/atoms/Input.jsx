@@ -16,7 +16,8 @@ const Input = React.forwardRef(({
         "placeholder:text-gray-500",
         "focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent",
         "disabled:cursor-not-allowed disabled:opacity-50",
-        variant === "search" && "bg-gray-50 border-gray-300 focus:bg-white",
+variant === "search" && "bg-gray-50 border-gray-300 focus:bg-white",
+        variant === "message" && "border-gray-300 focus:ring-primary/20",
         error && "border-error focus:ring-error",
         className
       )}

@@ -1,0 +1,138 @@
+[
+  {
+    "Id": 1,
+    "senderId": 1,
+    "receiverId": 2,
+    "content": "Hey! How's your day going?",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "read": true
+  },
+  {
+    "Id": 2,
+    "senderId": 2,
+    "receiverId": 1,
+    "content": "Pretty good! Just working on some new projects. How about you?",
+    "timestamp": "2024-01-15T10:32:00Z",
+    "read": true
+  },
+  {
+    "Id": 3,
+    "senderId": 1,
+    "receiverId": 2,
+    "content": "Same here! Been busy with the new app launch. Excited to share it with everyone.",
+    "timestamp": "2024-01-15T10:35:00Z",
+    "read": true
+  },
+  {
+    "Id": 4,
+    "senderId": 2,
+    "receiverId": 1,
+    "content": "That sounds amazing! Can't wait to see what you've been working on.",
+    "timestamp": "2024-01-15T10:37:00Z",
+    "read": false
+  },
+  {
+    "Id": 5,
+    "senderId": 1,
+    "receiverId": 3,
+    "content": "Hi Sarah! Thanks for connecting. Looking forward to collaborating!",
+    "timestamp": "2024-01-15T09:15:00Z",
+    "read": true
+  },
+  {
+    "Id": 6,
+    "senderId": 3,
+    "receiverId": 1,
+    "content": "Absolutely! I think we can create something really great together.",
+    "timestamp": "2024-01-15T09:18:00Z",
+    "read": true
+  },
+  {
+    "Id": 7,
+    "senderId": 3,
+    "receiverId": 1,
+    "content": "I have some ideas I'd love to discuss. Are you free for a call this week?",
+    "timestamp": "2024-01-15T09:20:00Z",
+    "read": false
+  },
+  {
+    "Id": 8,
+    "senderId": 2,
+    "receiverId": 3,
+    "content": "Hey Sarah! Saw your latest post about design trends. Really insightful!",
+    "timestamp": "2024-01-14T16:45:00Z",
+    "read": true
+  },
+  {
+    "Id": 9,
+    "senderId": 3,
+    "receiverId": 2,
+    "content": "Thank you! I'm glad you found it helpful. Design is such a fascinating field.",
+    "timestamp": "2024-01-14T16:50:00Z",
+    "read": true
+  },
+  {
+    "Id": 10,
+    "senderId": 2,
+    "receiverId": 3,
+    "content": "Definitely! Maybe we could chat about some upcoming projects sometime?",
+    "timestamp": "2024-01-14T16:52:00Z",
+    "read": false
+  },
+  {
+    "Id": 11,
+    "senderId": 1,
+    "receiverId": 4,
+    "content": "Welcome to the community! Hope you enjoy it here.",
+    "timestamp": "2024-01-13T14:20:00Z",
+    "read": true
+  },
+  {
+    "Id": 12,
+    "senderId": 4,
+    "receiverId": 1,
+    "content": "Thank you so much! Everyone seems really friendly and welcoming.",
+    "timestamp": "2024-01-13T14:25:00Z",
+    "read": true
+  },
+  {
+    "Id": 13,
+    "senderId": 4,
+    "receiverId": 1,
+    "content": "I'm excited to start sharing my work and connecting with other creators.",
+    "timestamp": "2024-01-13T14:27:00Z",
+    "read": true
+  },
+  {
+    "Id": 14,
+    "senderId": 1,
+    "receiverId": 4,
+    "content": "That's wonderful! The community here is really supportive. Feel free to reach out if you have any questions.",
+    "timestamp": "2024-01-13T14:30:00Z",
+    "read": false
+  },
+  {
+    "Id": 15,
+    "senderId": 3,
+    "receiverId": 4,
+    "content": "Hi! I noticed we have similar interests in design. Would love to connect!",
+    "timestamp": "2024-01-12T11:10:00Z",
+    "read": true
+  },
+  {
+    "Id": 16,
+    "senderId": 4,
+    "receiverId": 3,
+    "content": "Hi Sarah! Yes, I'd love to connect. Your portfolio is incredible!",
+    "timestamp": "2024-01-12T11:15:00Z",
+    "read": true
+  },
+  {
+    "Id": 17,
+    "senderId": 4,
+    "receiverId": 3,
+    "content": "I'm still learning, but I hope to create work as inspiring as yours someday.",
+    "timestamp": "2024-01-12T11:17:00Z",
+    "read": false
+  }
+]

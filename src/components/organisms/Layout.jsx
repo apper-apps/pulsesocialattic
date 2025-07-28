@@ -18,8 +18,9 @@ const Layout = ({ children }) => {
     avatarUrl: null
   };
 
-  const navigation = [
+const navigation = [
     { name: "Home", href: "/", icon: "Home" },
+    { name: "Messages", href: "/messages", icon: "MessageCircle" },
     { name: "Profile", href: `/profile/${currentUser.username}`, icon: "User" },
     { name: "Settings", href: "/settings", icon: "Settings" }
   ];

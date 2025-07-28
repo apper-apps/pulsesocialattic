@@ -8,16 +8,18 @@ import HomePage from "@/components/pages/HomePage";
 import SettingsPage from "@/components/pages/SettingsPage";
 import ProfilePage from "@/components/pages/ProfilePage";
 import PostDetailPage from "@/components/pages/PostDetailPage";
-
+import MessagesPage from "@/components/pages/MessagesPage";
 function App() {
   return (
     <BrowserRouter>
       <NotificationProvider>
         <Layout>
-          <Routes>
+<Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/profile/:username" element={<ProfilePage />} />
             <Route path="/post/:postId" element={<PostDetailPage />} />
+            <Route path="/messages" element={<MessagesPage />} />
+            <Route path="/messages/:conversationId" element={<MessagesPage />} />
             <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </Layout>
