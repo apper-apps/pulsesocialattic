@@ -1,0 +1,67 @@
+[
+  {
+    "Id": 1,
+    "username": "johndoe",
+    "displayName": "John Doe",
+    "bio": "Software developer passionate about building great user experiences. Love hiking and photography in my free time.",
+    "avatarUrl": null,
+    "followerCount": 1245,
+    "followingCount": 432,
+    "postCount": 127,
+    "isPrivate": false,
+    "createdAt": "2023-01-15T10:30:00Z",
+    "email": "john@example.com"
+  },
+  {
+    "Id": 2,
+    "username": "sarah_design",
+    "displayName": "Sarah Chen",
+    "bio": "UI/UX Designer creating beautiful and intuitive digital experiences. Currently working on mobile app design.",
+    "avatarUrl": null,
+    "followerCount": 2341,
+    "followingCount": 567,
+    "postCount": 89,
+    "isPrivate": false,
+    "createdAt": "2023-02-20T14:15:00Z",
+    "email": "sarah@example.com"
+  },
+  {
+    "Id": 3,
+    "username": "mike_codes",
+    "displayName": "Mike Johnson",
+    "bio": "Full-stack developer | React enthusiast | Coffee addict ☕ Building the future one line of code at a time.",
+    "avatarUrl": null,
+    "followerCount": 892,
+    "followingCount": 234,
+    "postCount": 156,
+    "isPrivate": false,
+    "createdAt": "2023-03-10T09:45:00Z",
+    "email": "mike@example.com"
+  },
+  {
+    "Id": 4,
+    "username": "alex_writes",
+    "displayName": "Alex Rivera",
+    "bio": "Content creator and tech writer. Sharing insights about the latest trends in technology and digital marketing.",
+    "avatarUrl": null,
+    "followerCount": 1876,
+    "followingCount": 345,
+    "postCount": 203,
+    "isPrivate": true,
+    "createdAt": "2023-04-05T16:20:00Z",
+    "email": "alex@example.com"
+  },
+  {
+    "Id": 5,
+    "username": "emma_photo",
+    "displayName": "Emma Watson",
+    "bio": "Professional photographer capturing life's beautiful moments. Available for weddings and events.",
+    "avatarUrl": null,
+    "followerCount": 3245,
+    "followingCount": 678,
+    "postCount": 312,
+    "isPrivate": false,
+    "createdAt": "2023-05-12T11:30:00Z",
+    "email": "emma@example.com"
+  }
+]

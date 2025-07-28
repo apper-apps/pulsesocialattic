@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "postId": 1,
+    "userId": 2,
+    "content": "This looks amazing! Would love to see the documentation when it's ready.",
+    "parentId": null,
+    "createdAt": "2024-01-15T15:30:00Z"
+  },
+  {
+    "Id": 2,
+    "postId": 1,
+    "userId": 3,
+    "content": "Great work! Component libraries are game changers for development speed.",
+    "parentId": null,
+    "createdAt": "2024-01-15T16:15:00Z"
+  },
+  {
+    "Id": 3,
+    "postId": 1,
+    "userId": 1,
+    "content": "Thanks! I'll definitely share the docs once they're polished.",
+    "parentId": 1,
+    "createdAt": "2024-01-15T16:45:00Z"
+  },
+  {
+    "Id": 4,
+    "postId": 2,
+    "userId": 1,
+    "content": "The gradient usage is really clean! How did you approach the information hierarchy?",
+    "parentId": null,
+    "createdAt": "2024-01-14T17:20:00Z"
+  },
+  {
+    "Id": 5,
+    "postId": 2,
+    "userId": 4,
+    "content": "Beautiful design! The color palette feels very trustworthy for a banking app.",
+    "parentId": null,
+    "createdAt": "2024-01-14T18:30:00Z"
+  },
+  {
+    "Id": 6,
+    "postId": 3,
+    "userId": 5,
+    "content": "Coffee is definitely essential for good code! What's your favorite brewing method?",
+    "parentId": null,
+    "createdAt": "2024-01-14T10:45:00Z"
+  },
+  {
+    "Id": 7,
+    "postId": 4,
+    "userId": 2,
+    "content": "Really insightful article! I think AI will augment human creativity rather than replace it.",
+    "parentId": null,
+    "createdAt": "2024-01-13T14:15:00Z"
+  },
+  {
+    "Id": 8,
+    "postId": 4,
+    "userId": 3,
+    "content": "Agreed! The key is finding the right balance between efficiency and authenticity.",
+    "parentId": 7,
+    "createdAt": "2024-01-13T14:45:00Z"
+  },
+  {
+    "Id": 9,
+    "postId": 5,
+    "userId": 1,
+    "content": "Stunning shot! The lighting is perfect. What camera settings did you use?",
+    "parentId": null,
+    "createdAt": "2024-01-13T20:15:00Z"
+  },
+  {
+    "Id": 10,
+    "postId": 5,
+    "userId": 3,
+    "content": "This makes me want to book a beach vacation right now!",
+    "parentId": null,
+    "createdAt": "2024-01-13T21:30:00Z"
+  }
+]

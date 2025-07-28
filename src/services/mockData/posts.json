@@ -1,0 +1,90 @@
+[
+  {
+    "Id": 1,
+    "userId": 1,
+    "content": "Just finished building a new React component library! The developer experience is so much smoother now. Can't wait to share it with the team tomorrow. #React #WebDev",
+    "imageUrl": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
+    "likeCount": 24,
+    "commentCount": 8,
+    "privacy": "public",
+    "isLiked": false,
+    "createdAt": "2024-01-15T14:30:00Z"
+  },
+  {
+    "Id": 2,
+    "userId": 2,
+    "content": "Working on some new UI concepts for a mobile banking app. The challenge is making complex financial data feel simple and approachable. Here's a sneak peek!",
+    "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+    "likeCount": 67,
+    "commentCount": 15,
+    "privacy": "public",
+    "isLiked": true,
+    "createdAt": "2024-01-14T16:45:00Z"
+  },
+  {
+    "Id": 3,
+    "userId": 3,
+    "content": "Coffee and code - the perfect combination for a productive Monday morning! Currently refactoring our authentication system. Sometimes the best solutions are the simplest ones.",
+    "imageUrl": "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=800&h=600&fit=crop",
+    "likeCount": 41,
+    "commentCount": 12,
+    "privacy": "public",
+    "isLiked": false,
+    "createdAt": "2024-01-14T09:15:00Z"
+  },
+  {
+    "Id": 4,
+    "userId": 4,
+    "content": "Just published a new article about the future of AI in content creation. It's fascinating how technology is reshaping the way we write and communicate. What do you think about AI-assisted writing?",
+    "imageUrl": null,
+    "likeCount": 89,
+    "commentCount": 23,
+    "privacy": "public",
+    "isLiked": true,
+    "createdAt": "2024-01-13T13:20:00Z"
+  },
+  {
+    "Id": 5,
+    "userId": 5,
+    "content": "Golden hour magic at the beach yesterday. Sometimes you have to put down the camera and just enjoy the moment, but I couldn't resist capturing this one.",
+    "imageUrl": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
+    "likeCount": 156,
+    "commentCount": 31,
+    "privacy": "public",
+    "isLiked": false,
+    "createdAt": "2024-01-13T19:30:00Z"
+  },
+  {
+    "Id": 6,
+    "userId": 1,
+    "content": "Spent the weekend hiking in the mountains. There's something about being disconnected from the digital world that helps you reconnect with yourself.",
+    "imageUrl": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
+    "likeCount": 73,
+    "commentCount": 19,
+    "privacy": "public",
+    "isLiked": true,
+    "createdAt": "2024-01-12T18:45:00Z"
+  },
+  {
+    "Id": 7,
+    "userId": 2,
+    "content": "Prototyping some new interaction patterns for our design system. The goal is to make complex workflows feel effortless. User research shows we're on the right track!",
+    "imageUrl": "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&h=600&fit=crop",
+    "likeCount": 92,
+    "commentCount": 26,
+    "privacy": "followers",
+    "isLiked": false,
+    "createdAt": "2024-01-12T11:20:00Z"
+  },
+  {
+    "Id": 8,
+    "userId": 3,
+    "content": "Late night debugging session turned into an early morning breakthrough! Fixed a performance issue that was bothering me for weeks. The solution was hiding in plain sight.",
+    "imageUrl": null,
+    "likeCount": 34,
+    "commentCount": 7,
+    "privacy": "public",
+    "isLiked": true,
+    "createdAt": "2024-01-11T23:15:00Z"
+  }
+]
