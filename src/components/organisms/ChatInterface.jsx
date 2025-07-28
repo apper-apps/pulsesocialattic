@@ -66,10 +66,13 @@ useEffect(() => {
     }
   };
 
-  const handleKeyPress = (e) => {
+const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSendMessage(e);
+      e.stopPropagation();
+      if (!sending && messageText.trim()) {
+        handleSendMessage(e);
+      }
     }
   };
 
