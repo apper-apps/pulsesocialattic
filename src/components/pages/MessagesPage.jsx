@@ -17,8 +17,7 @@ const MessagesPage = () => {
   const [error, setError] = useState(null);
   const [selectedConversation, setSelectedConversation] = useState(null);
   
-  const currentUserId = 1; // In a real app, this would come from auth context
-
+const currentUserId = 1; // This would come from authenticated user context
   useEffect(() => {
     loadConversations();
   }, []);

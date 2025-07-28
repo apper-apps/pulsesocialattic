@@ -1,131 +1,414 @@
-import comments from "@/services/mockData/comments.json";
-import users from "@/services/mockData/users.json";
+import { toast } from 'react-toastify';
 import { NotificationService } from "./notificationService";
 import { PostService } from "./postService";
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-const enrichCommentWithUser = (comment) => {
-  const user = users.find(u => u.Id === comment.userId);
-  return {
-    ...comment,
-    id: comment.Id.toString(),
-    user: user ? {
-      ...user,
-      id: user.Id.toString()
-    } : null
-  };
-};
+import { UserService } from "./userService";
 
 export const CommentService = {
   async getAll() {
-    await delay(300);
-    return comments
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      .map(enrichCommentWithUser);
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "postId" }, referenceField: { field: { Name: "Name" } } },
+          { field: { Name: "userId" }, referenceField: { field: { Name: "Name" } } },
+          { field: { Name: "content" } },
+          { field: { Name: "parentId" }, referenceField: { field: { Name: "Name" } } },
+          { field: { Name: "createdAt" } }
+        ],
+        orderBy: [
+          {
+            fieldName: "createdAt",
+            sorttype: "DESC"
+          }
+        ]
+      };
+
+      const response = await apperClient.fetchRecords('app_Comment', params);
+
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+
+      return response.data.map(comment => ({
+        ...comment,
+        id: comment.Id.toString(),
+        user: comment.userId ? {
+          id: comment.userId.Id?.toString(),
+          Name: comment.userId.Name
+        } : null
+      }));
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error fetching comments:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return [];
+    }
   },
 
   async getById(id) {
-    await delay(250);
-    const comment = comments.find(c => c.Id === parseInt(id));
-    if (!comment) {
-      throw new Error("Comment not found");
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "postId" }, referenceField: { field: { Name: "Name" } } },
+          { field: { Name: "userId" }, referenceField: { field: { Name: "Name" } } },
+          { field: { Name: "content" } },
+          { field: { Name: "parentId" }, referenceField: { field: { Name: "Name" } } },
+          { field: { Name: "createdAt" } }
+        ]
+      };
+
+      const response = await apperClient.getRecordById('app_Comment', parseInt(id), params);
+
+      if (!response.success) {
+        console.error(response.message);
+        throw new Error(response.message);
+      }
+
+      return {
+        ...response.data,
+        id: response.data.Id.toString(),
+        user: response.data.userId ? {
+          id: response.data.userId.Id?.toString(),
+          Name: response.data.userId.Name
+        } : null
+      };
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error(`Error fetching comment with ID ${id}:`, error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      throw error;
     }
-    return enrichCommentWithUser(comment);
   },
 
   async getByPostId(postId) {
-    await delay(350);
-    const postComments = comments.filter(c => c.postId === parseInt(postId));
-    return postComments
-      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-      .map(enrichCommentWithUser);
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "postId" } },
+          { field: { Name: "userId" }, referenceField: { field: { Name: "Name" } } },
+          { field: { Name: "content" } },
+          { field: { Name: "parentId" } },
+          { field: { Name: "createdAt" } }
+        ],
+        where: [
+          {
+            FieldName: "postId",
+            Operator: "EqualTo",
+            Values: [parseInt(postId)]
+          }
+        ],
+        orderBy: [
+          {
+            fieldName: "createdAt",
+            sorttype: "ASC"
+          }
+        ]
+      };
+
+      const response = await apperClient.fetchRecords('app_Comment', params);
+
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+
+      return response.data.map(comment => ({
+        ...comment,
+        id: comment.Id.toString(),
+        user: comment.userId ? {
+          id: comment.userId.Id?.toString(),
+          Name: comment.userId.Name
+        } : null
+      }));
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error fetching comments by post ID:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return [];
+    }
   },
 
-async create(commentData) {
-    await delay(400);
-    const currentUser = users.find(u => u.Id === 1); // Mock current user
-    
-    const newComment = {
-      Id: Math.max(...comments.map(c => c.Id)) + 1,
-      postId: parseInt(commentData.postId),
-      userId: 1,
-      content: commentData.content,
-      parentId: commentData.parentId ? parseInt(commentData.parentId) : null,
-      createdAt: new Date().toISOString()
-    };
-    
-    comments.push(newComment);
-    
-    // Create notification for comment
+  async create(commentData) {
     try {
-      const post = await PostService.getById(commentData.postId);
-      if (post && post.userId !== '1') { // Don't notify self
-        const commenter = users.find(u => u.Id === 1);
+      const currentUser = await UserService.getCurrentUser();
+
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      const params = {
+        records: [
+          {
+            Name: commentData.content?.substring(0, 50) || "New Comment",
+            postId: parseInt(commentData.postId),
+            userId: parseInt(currentUser.Id),
+            content: commentData.content,
+            parentId: commentData.parentId ? parseInt(commentData.parentId) : null,
+            createdAt: new Date().toISOString()
+          }
+        ]
+      };
+
+      const response = await apperClient.createRecord('app_Comment', params);
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successfulCreations = response.results.filter(result => result.success);
+        const failedCreations = response.results.filter(result => !result.success);
         
-        if (commenter) {
-          await NotificationService.create({
-            userId: parseInt(post.userId),
-            fromUserId: 1,
-            type: 'comment',
-            postId: newComment.postId,
-            commentId: newComment.Id,
-            message: `${commenter.displayName} commented on your post`
+        if (failedCreations.length > 0) {
+          console.error(`Failed to create comment ${failedCreations.length} records:${JSON.stringify(failedCreations)}`);
+          
+          failedCreations.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
           });
         }
+
+        if (successfulCreations.length > 0) {
+          const newComment = successfulCreations[0].data;
+
+          // Create notification for comment
+          try {
+            const post = await PostService.getById(commentData.postId);
+            if (post && post.userId !== currentUser.Id.toString()) { // Don't notify self
+              if (currentUser) {
+                await NotificationService.create({
+                  userId: parseInt(post.userId),
+                  fromUserId: parseInt(currentUser.Id),
+                  type: 'comment',
+                  postId: parseInt(commentData.postId),
+                  commentId: newComment.Id,
+                  message: `${currentUser.displayName} commented on your post`
+                });
+              }
+            }
+          } catch (error) {
+            console.error('Failed to create comment notification:', error);
+          }
+
+          return {
+            ...newComment,
+            id: newComment.Id.toString(),
+            user: currentUser
+          };
+        }
       }
+
+      throw new Error("Comment creation failed");
     } catch (error) {
-      console.error('Failed to create comment notification:', error);
+      if (error?.response?.data?.message) {
+        console.error("Error creating comment:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      throw error;
     }
-    
-    return enrichCommentWithUser(newComment);
   },
 
   async update(id, commentData) {
-    await delay(350);
-    const commentIndex = comments.findIndex(c => c.Id === parseInt(id));
-    if (commentIndex === -1) {
-      throw new Error("Comment not found");
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      // Only include updateable fields
+      const updateData = {};
+      if (commentData.Name !== undefined) updateData.Name = commentData.Name;
+      if (commentData.content !== undefined) updateData.content = commentData.content;
+
+      const params = {
+        records: [
+          {
+            Id: parseInt(id),
+            ...updateData
+          }
+        ]
+      };
+
+      const response = await apperClient.updateRecord('app_Comment', params);
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        throw new Error(response.message);
+      }
+
+      if (response.results) {
+        const successfulUpdates = response.results.filter(result => result.success);
+        const failedUpdates = response.results.filter(result => !result.success);
+        
+        if (failedUpdates.length > 0) {
+          console.error(`Failed to update comment ${failedUpdates.length} records:${JSON.stringify(failedUpdates)}`);
+          
+          failedUpdates.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
+          });
+        }
+
+        if (successfulUpdates.length > 0) {
+          const updatedComment = successfulUpdates[0].data;
+          const commentWithUser = await this.getById(id);
+          return commentWithUser;
+        }
+      }
+
+      throw new Error("Comment update failed");
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error updating comment:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      throw error;
     }
-    
-    const updatedComment = {
-      ...comments[commentIndex],
-      ...commentData,
-      Id: comments[commentIndex].Id
-    };
-    
-    comments[commentIndex] = updatedComment;
-    return enrichCommentWithUser(updatedComment);
   },
 
   async delete(id) {
-    await delay(300);
-    const commentIndex = comments.findIndex(c => c.Id === parseInt(id));
-    if (commentIndex === -1) {
-      throw new Error("Comment not found");
-    }
-    
-    // Also delete any replies to this comment
-    const commentId = parseInt(id);
-    const indicesToRemove = [];
-    
-    for (let i = comments.length - 1; i >= 0; i--) {
-      {
-        const comment = comments[i];
-        if (comment.Id === commentId || comment.parentId === commentId) {
-          indicesToRemove.push(i);
-        }
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      // First get all replies to this comment
+      const replies = await this.getReplies(id);
+      const allIdsToDelete = [parseInt(id), ...replies.map(reply => parseInt(reply.id))];
+
+      const params = {
+        RecordIds: allIdsToDelete
+      };
+
+      const response = await apperClient.deleteRecord('app_Comment', params);
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return false;
       }
+
+      if (response.results) {
+        const successfulDeletions = response.results.filter(result => result.success);
+        const failedDeletions = response.results.filter(result => !result.success);
+        
+        if (failedDeletions.length > 0) {
+          console.error(`Failed to delete comment ${failedDeletions.length} records:${JSON.stringify(failedDeletions)}`);
+          
+          failedDeletions.forEach(record => {
+            if (record.message) toast.error(record.message);
+          });
+        }
+
+        return successfulDeletions.length > 0;
+      }
+
+      return false;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error deleting comment:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return false;
     }
-    
-    indicesToRemove.forEach(index => comments.splice(index, 1));
-    return { success: true };
   },
 
   async getReplies(parentId) {
-    await delay(250);
-    const replies = comments.filter(c => c.parentId === parseInt(parentId));
-    return replies
-      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-      .map(enrichCommentWithUser);
+    try {
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      const params = {
+        fields: [
+          { field: { Name: "Name" } },
+          { field: { Name: "postId" } },
+          { field: { Name: "userId" }, referenceField: { field: { Name: "Name" } } },
+          { field: { Name: "content" } },
+          { field: { Name: "parentId" } },
+          { field: { Name: "createdAt" } }
+        ],
+        where: [
+          {
+            FieldName: "parentId",
+            Operator: "EqualTo",
+            Values: [parseInt(parentId)]
+          }
+        ],
+        orderBy: [
+          {
+            fieldName: "createdAt",
+            sorttype: "ASC"
+          }
+        ]
+      };
+
+      const response = await apperClient.fetchRecords('app_Comment', params);
+
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+
+      return response.data.map(comment => ({
+        ...comment,
+        id: comment.Id.toString(),
+        user: comment.userId ? {
+          id: comment.userId.Id?.toString(),
+          Name: comment.userId.Name
+        } : null
+      }));
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error fetching comment replies:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return [];
+    }
   }
 };

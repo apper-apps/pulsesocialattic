@@ -16,8 +16,8 @@ export const NotificationProvider = ({ children }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // Mock current user ID - in real app would come from auth context
-  const currentUserId = '1';
+// Get current user from auth - for now use mock ID
+  const currentUserId = '1'; // This would come from authenticated user in real app
 
   const loadNotifications = async () => {
     try {

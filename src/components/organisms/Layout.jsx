@@ -73,8 +73,27 @@ const navigation = [
             </nav>
 
             {/* User Menu */}
-            <div className="flex items-center space-x-4">
+<div className="flex items-center space-x-4">
               <NotificationDropdown />
+              
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  // Logout functionality using AuthContext
+                  import('../../App').then(module => {
+                    const { AuthContext } = module;
+                    const authContext = React.useContext(AuthContext);
+                    if (authContext?.logout) {
+                      authContext.logout();
+                    }
+                  });
+                }}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                <ApperIcon name="LogOut" className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
               
               <Button
                 variant="ghost"
