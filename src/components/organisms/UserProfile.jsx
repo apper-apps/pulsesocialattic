@@ -135,7 +135,7 @@ const handleFollowToggle = async () => {
     setShowDropdown(!showDropdown);
   };
 
-  const handleDropdownAction = (action) => {
+const handleDropdownAction = async (action) => {
     setShowDropdown(false);
     
     switch (action) {
@@ -147,13 +147,39 @@ const handleFollowToggle = async () => {
         break;
       case 'share':
         if (navigator.share) {
-          navigator.share({
-            title: `${user.displayName} (@${user.username})`,
-            url: window.location.href
-          });
+          try {
+            await navigator.share({
+              title: `${user.displayName} (@${user.username})`,
+              url: window.location.href
+            });
+            toast.success('Profile shared successfully');
+          } catch (error) {
+            // Handle specific share API errors
+            if (error.name === 'AbortError') {
+              // User cancelled the share dialog - no need to show error
+              return;
+            } else if (error.name === 'NotAllowedError') {
+              toast.error('Share permission denied');
+            } else {
+              console.warn('Share failed:', error);
+            }
+            
+            // Fallback to clipboard copy on any error
+            try {
+              await navigator.clipboard.writeText(window.location.href);
+              toast.success('Profile link copied to clipboard');
+            } catch (clipboardError) {
+              toast.error('Unable to share or copy link');
+            }
+          }
         } else {
-          navigator.clipboard.writeText(window.location.href);
-          toast.success('Profile link copied to clipboard');
+          // Fallback for browsers without share API
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            toast.success('Profile link copied to clipboard');
+          } catch (error) {
+            toast.error('Unable to copy link to clipboard');
+          }
         }
         break;
       case 'report':
